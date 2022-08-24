@@ -1,0 +1,31 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace Admin.Repositories
+{
+	public class StatusRepository
+	{
+		public List<Models.Status> GetStatuses()
+		{
+			return new List<Models.Status>
+														{
+																		new Models.Status { Id = 0, Name = "(odabir)" },
+																		new Models.Status { Id = 1, Name = "Zauzeto" },
+																		new Models.Status { Id = 2, Name = "Rezervirano" },
+																		new Models.Status { Id = 3, Name = "Slobodno" },
+														};
+		}
+
+		public List<Models.Status> GetStatusesRaw()
+		{
+			return new List<Models.Status>
+														{
+																		new Models.Status { Id = 1, Name = "Zauzeto" },
+																		new Models.Status { Id = 2, Name = "Rezervirano" },
+																		new Models.Status { Id = 3, Name = "Slobodno" },
+														};
+		}
+	}
+}
