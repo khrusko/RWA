@@ -26,7 +26,7 @@
 			<asp:BoundField DataField="MaxAdults" HeaderText="Broj odraslih" ItemStyle-HorizontalAlign="Right" />
 			<asp:BoundField DataField="MaxChildren" HeaderText="Broj djece" ItemStyle-HorizontalAlign="Right" />
 			<asp:BoundField DataField="TotalRooms" HeaderText="Broj soba" ItemStyle-HorizontalAlign="Right" />
-			<asp:BoundField DataField="BeachDistance" HeaderText="Udaljenost od plaže" ItemStyle-HorizontalAlign="Right" ItemStyle-Width="20px"/>
+			<asp:BoundField DataField="BeachDistance" HeaderText="Udaljenost od plaže (m)" ItemStyle-HorizontalAlign="Right" ItemStyle-Width="20px"/>
 			<asp:BoundField DataField="Price" HeaderText="Cijena" DataFormatString="{0:C}" ItemStyle-HorizontalAlign="Right" />
 			<asp:TemplateField HeaderText="Administracija" ItemStyle-Width="400px">
 				<ItemTemplate>

@@ -1,0 +1,78 @@
+﻿@model Javno.Models.User
+@{
+	ViewBag.Title = "Register";
+}
+
+
+<body>
+
+	@using (Html.BeginForm("Register", "User", "POST"))
+	{
+		<div class="container">
+			<div class="row d-flex justify-content-center align-items-center">
+				<div class="col-12 col-md-8 col-lg-8 col-xl-5">
+					<div class="card shadow-2-strong" style="border-radius: 1rem;">
+						<div class="card-body p-5 text-start">
+
+							<h3 class="mb-5 font-weight-bold text-center">Register</h3>
+							<hr />
+
+
+							@*E-mail*@
+							<div class="form-outline">
+								@Html.LabelFor(x => x.Email)
+								@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+								@Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+							</div>
+
+							@*Phone*@
+							<div class="form-outline">
+								@Html.LabelFor(x => x.PhoneNumber)
+								@Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+								@Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+							</div>
+
+							@*Address*@
+							<div class="form-outline">
+								@Html.LabelFor(x => x.Address)
+								@Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+								@Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+							</div>
+
+							@*Username*@
+							<div class="form-outline">
+								@Html.LabelFor(x => x.UserName)
+								@Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+								@Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+							</div>
+
+							@*Password*@
+							<div class="form-outline ">
+								<label class="form-label" for="txtUserPass-2">Password</label>
+								@Html.EditorFor(model => model.PasswordHash, new { htmlAttributes = new { @class = "form-control" } })
+								@Html.ValidationMessageFor(model => model.PasswordHash, "", new { @class = "text-danger" })
+							</div>
+
+
+							<a class="text-info" href="~/User/Login">Already have an account?</a>
+
+							@*Cookie*@
+							@*<div class="form-check d-flex justify-content-start">
+									<asp:CheckBox ID="chkPersistCookie" CssClass="form-check-input" runat="server" AutoPostBack="false" />
+									<label class="form-check-label" for="chkPersistCookie">Remember me</label>
+								</div>*@
+
+							<hr class="" />
+
+							<div class="form-group">
+								<input type="submit" value="Register" class="btn btn-primary" />
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+</body>

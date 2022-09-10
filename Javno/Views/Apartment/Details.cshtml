@@ -1,0 +1,165 @@
+﻿@model Javno.Models.ApartmentDetails
+
+@using Javno.Models;
+@using Recaptcha.Web.Mvc;
+<table class="align-top">
+	<tr>
+			<td class="mr-5">
+				<h2>Details of apartment</h2>
+				<div class="m-1">
+					<img src="/Apartment/Picture?Path=@Model.RepresentativePicture.Path" style="height:200px;width:260px" />
+				</div>
+
+				<ul>
+					<li>Name: <span class="font-italic">@Model.Name</span></li>
+					<li>Owner name: <span class="font-italic">@Model.OwnerName</span></li>
+					<li>City: <span class="font-italic">@Model.CityName</span></li>
+					<li>Beach distance: <span class="font-italic"> @Model.BeachDistance m</span></li>
+					<li>Number of rooms: <span class="font-italic"> @Model.TotalRooms</span></li>
+					<li>Number of adults: <span class="font-italic"> @Model.MaxAdults</span></li>
+					<li>Number of children: <span class="font-italic"> @Model.MaxChildren</span></li>
+				</ul>
+				<div class="ml-4">Price: @Model.Price €</div>
+				<div>Tags: </div>
+				<div>
+					@foreach (String tag in Model.Tags)
+					{
+						<ul>
+							<li>
+								@tag
+							</li>
+						</ul>
+					}
+					<hr />
+				</div>
+
+				@if (Session["currentUser"] != null)
+				{
+					<div class="text-muted mb-2">Rate us :)</div>
+					<form id="apartmentStarsForm">
+						<div class="form-group">
+							<label>	Stars	</label>
+							<input type="hidden" value=@Model.Id id="apartId" />
+							<input type="number" id="starsId" max="5" min="1" />
+							<br />
+							<label>	Details	</label>
+							<input type="text" id="detailsId" />
+						</div>
+						<button type="submit" class="btn btn-primary">Review!</button>
+					</form>
+				}
+			</td>
+		<td width="200px"></td>
+		<td class="ml-5">
+			<h2>Contact</h2>
+			@using (Html.BeginForm("Details", "Apartment", "Post"))
+			{
+
+				<div class="form-group">
+					@Html.LabelFor(x => x.ContactFirstName)
+					@Html.TextBoxFor(x => x.ContactFirstName, new { @class = "form-control", @Value = (((UserLoginVM)Session["currentUser"])?.UserName) })
+					@Html.ValidationMessageFor(model => model.ContactFirstName, "", new { @class = "text-danger" })
+				</div>
+				<div class="form-group">
+					@Html.LabelFor(x => x.ContactEmail)
+					@Html.TextBoxFor(x => x.ContactEmail, new { @class = "form-control", @type = "email", @Value = (((UserLoginVM)Session["currentUser"]))?.Email })
+					@Html.ValidationMessageFor(model => model.ContactEmail, "", new { @class = "text-danger" })
+				</div>
+				<div class="form-group">
+					@Html.LabelFor(x => x.ContactPhoneMobile)
+					@Html.TextBoxFor(x => x.ContactPhoneMobile, new { @class = "form-control", @type = "number", @Value = (((UserLoginVM)Session["currentUser"])?.PhoneNumber) })
+					@Html.ValidationMessageFor(model => model.ContactPhoneMobile, "", new { @class = "text-danger" })
+				</div>
+				<div class="form-group">
+					@Html.LabelFor(x => x.ContactNumberOfAdults)
+					@Html.TextBoxFor(x => x.ContactNumberOfAdults, new { @class = "form-control", @type = "number" })
+					@Html.ValidationMessageFor(model => model.ContactNumberOfAdults, "", new { @class = "text-danger" })
+				</div>
+
+				<div class="form-group">
+					@Html.LabelFor(x => x.ContactNumberOfChildren)
+					@Html.TextBoxFor(x => x.ContactNumberOfChildren, new { @class = "form-control", @type = "number" })
+					@Html.ValidationMessageFor(model => model.ContactNumberOfChildren, "", new { @class = "text-danger" })
+				</div>
+
+				<div class="form-group">
+					@Html.LabelFor(x => x.ContactAddress)
+					@Html.TextBoxFor(x => x.ContactAddress, new { @class = "form-control" })
+					@Html.ValidationMessageFor(model => model.ContactAddress, "", new { @class = "text-danger" })
+				</div>
+				<div class="form-group">
+					@Html.LabelFor(x => x.ContactDateFrom)
+					@Html.TextBoxFor(x => x.ContactDateFrom, new { @class = "form-control", @type = "date" })
+					@Html.ValidationMessageFor(model => model.ContactDateFrom, "", new { @class = "text-danger" })
+				</div>
+				<div class="form-group">
+					@Html.LabelFor(x => x.ContactDateTo)
+					@Html.TextBoxFor(x => x.ContactDateTo, new { @class = "form-control", @type = "date" })
+					@Html.ValidationMessageFor(model => model.ContactDateTo, "", new { @class = "text-danger" })
+				</div>
+
+				<div class="form-group">
+					@Html.LabelFor(x => x.ContactDetails)
+					@Html.TextBoxFor(x => x.ContactDetails, new { @class = "form-control" })
+					@Html.ValidationMessageFor(model => model.ContactDetails, "", new { @class = "text-danger" })
+				</div>
+				if (Session["currentUser"] == null)
+				{
+					@Html.RecaptchaWidget();
+				}
+
+
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary">Reserve</button>
+				</div>
+			}
+
+		</td>
+	</tr>
+</table>
+
+
+
+
+
+
+<br />
+<hr class="mt-5" />
+<div class="container-fluid">
+	<div class="row">
+		@for (int i = 0; i < Model.Pictures.Count; i++)
+		{
+			<a data-fancybox="gallery" href="/Apartment/Picture?Path=@Model.Pictures[i].Path" width="250" height="250">
+				<img src="/Apartment/Picture?Path=@Model.Pictures[i].Path" width="200">
+			</a>
+		}
+	</div>
+</div>
+
+
+<script src=@("https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js")></script>
+@section scripts{
+	<script>
+		$("#apartmentStarsForm").submit(function (e) {
+			e.preventDefault();
+			e.stopPropagation();
+			var obj = {
+				Stars: $("#starsId").val(),
+				ApartmentId: $("#apartId").val(),
+				Details: $("#detailsId").val()
+			}
+			$.ajax({
+				type: "POST",
+				url: "/Apartment/CreateApartmentReview",
+				data: obj,
+				success: function (data) {
+					alert("Thank you for your review");
+				},
+				error: function (err) {
+					console.log(err);
+				}
+			})
+		})
+	</script>
+}
+

@@ -1,0 +1,63 @@
+﻿@model Javno.Models.SearchVM
+
+@{
+	ViewBag.Title = "Search";
+}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+
+<h2 class="mb-4">Apartment search</h2>
+
+@using (Ajax.BeginForm("Search", "Apartment", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "apartmentContainer", InsertionMode = InsertionMode.Replace }))
+{
+	<div class="form-group">
+		@Html.LabelFor(x => x.FilterRooms)
+		@Html.TextBoxFor(x => x.FilterRooms,
+new { @class = "form-control", @type = "number" })
+	</div>
+
+	<div class="form-group">
+		@Html.LabelFor(x => x.FilterAdults)
+		@Html.TextBoxFor(x => x.FilterAdults,
+new { @class = "form-control", @type = "number" })
+	</div>
+
+	<div class="form-group">
+		@Html.LabelFor(x => x.FilterChildren)
+		@Html.TextBoxFor(x => x.FilterChildren,
+new { @class = "form-control", @type = "number" })
+	</div>
+
+	<table>
+		<tr>
+			<td>
+				<div class="form-group">
+					@Html.LabelFor(x => x.FilterCity)
+					<br />
+					@Html.DropDownListFor(x => x.FilterCity, new SelectList(Model.CityList, "Id", "Name"), new { htmlAttributes = new { @class = "dropdown-menu" } })
+				</div>
+			</td>
+			<td width="800px"></td>
+			<td>
+				<div class="form-group">
+					@Html.LabelFor(x => x.Order)
+					<br />
+					@Html.DropDownListFor(x => x.Order,
+new SelectList(Model.OrderList, "Id", "Name"))
+				</div>
+			</td>
+		</tr>
+	</table>
+
+		<div class="form-group">
+			<button type="submit" class="btn btn-primary">Go!</button>
+			<a href="@Url.Action(controllerName:"Apartment",actionName:"ClearCookies")" class="btn btn-secondary">Clear filters</a>
+		</div>
+
+
+	<hr />
+
+	@Html.Partial("_partialApartments")
+}

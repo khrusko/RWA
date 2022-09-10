@@ -1,0 +1,54 @@
+﻿@model Javno.Models.StarRatingVM
+
+@{
+	ViewBag.Title = "StarRating";
+}
+
+<div class="form-group" id="rating-wrapper">
+	<div>
+		<div>@Model.Question</div>
+		@Html.HiddenFor(x => x.Rating)
+		<span>
+			<span class="display-rating-number">@Model.Rating</span>
+			<small> / @Model.MaxRating</small>
+		</span>
+	</div>
+	@for (int i = 1; i <= Model.MaxRating; i++)
+	{
+		<button type="button" class="btn btn-default" data-stars="@i">
+			<span class="fa fa-star"></span>
+		</button>
+	}
+</div>
+
+@section Scripts {
+	<link rel="stylesheet"
+							href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+							integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+							crossorigin="anonymous"
+							referrerpolicy="no-referrer" />
+	<script>
+          $(function () {
+              $("#rating-wrapper button").on('click', (function (e) {
+                  // Get data-stars value from the button
+                  var selectedValue = $(this).data("stars");
+
+                  // Set value to hidden and display
+                  $("#Rating").val(selectedValue);
+                  $(".display-rating-number").text(selectedValue);
+
+                  // Set star style
+                  $("#rating-wrapper").find(`button[data-stars]`).each(function () {
+                      $this = $(this);
+                      if ($this.data("stars") <= selectedValue) {
+                          $this.removeClass('btn-default');
+                          $this.addClass('btn-warning');
+                      } else {
+                          $this.removeClass('btn-warning');
+                          $this.addClass('btn-default');
+                      }
+                  })
+              }));
+          });
+	</script>
+}
